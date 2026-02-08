@@ -1,6 +1,6 @@
 .ts-wrapper {
     display: inline-block;
-	scale: 84%;
+	scale: 70%;
 }
 
 .ts-toggle {
@@ -77,3 +77,4 @@
     color: #fff; /* biały w trybie ciemnym – lepszy kontrast */
 
 }
+
