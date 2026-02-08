@@ -1,0 +1,64 @@
+<?php
+/**
+ * Plugin Name: Theme Switcher
+ * Description: Blok Gutenberg i shortcode do przełączania data-theme (bright/dark) na <body>. Stan zapisywany w ciasteczku (client-side).
+ * Version: 1.1
+ * Author: Grok
+ */
+
+if ( ! defined( 'ABSPATH' ) ) exit;
+
+function ts_assets() {
+    $url = plugin_dir_url( __FILE__ );
+    wp_enqueue_style( 'ts-style', $url . 'style.css', [], '1.1' );
+    wp_enqueue_script( 'ts-script', $url . 'script.js', [], '1.1', true );
+}
+add_action( 'wp_enqueue_scripts', 'ts_assets' );
+add_action( 'enqueue_block_editor_assets', 'ts_assets' );
+
+function ts_render() {
+    static $i = 0;
+    $i++;
+    $id = 'ts-toggle-' . $i;
+
+    return sprintf(
+        '<div class="ts-wrapper">
+            <input type="checkbox" id="%1$s" class="ts-toggle">
+            <label for="%1$s" class="ts-label">
+                <div class="ts-slider"></div>
+                <span class="ts-icon ts-moon">
+                    <svg viewBox="0 0 24 24" width="18" height="18"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" fill="currentColor"/></svg>
+                </span>
+                <span class="ts-icon ts-sun">
+                    <svg viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="5" fill="currentColor"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                </span>
+            </label>
+        </div>',
+        esc_attr( $id )
+    );
+}
+add_shortcode( 'theme_switcher', 'ts_render' );
+
+register_block_type( 'grok/theme-switcher', [
+    'render_callback' => 'ts_render',
+    'title'           => 'Theme Switcher',
+    'category'        => 'design',
+    'icon'            => 'lightbulb',
+    'keywords'        => [ 'theme', 'dark', 'bright', 'switcher' ],
+] );
+
+function ts_register_block_assets() {
+    wp_register_script(
+        'ts-block',
+        plugin_dir_url(__FILE__) . 'block.js',
+        ['wp-blocks', 'wp-element'],
+        '1.1',
+        true
+    );
+}
+add_action('init', 'ts_register_block_assets');
+
+function ts_enqueue_block_assets() {
+    wp_enqueue_script('ts-block');
+}
+add_action('enqueue_block_editor_assets', 'ts_enqueue_block_assets');
