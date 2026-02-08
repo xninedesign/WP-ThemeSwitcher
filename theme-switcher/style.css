@@ -14,7 +14,7 @@
     justify-content: space-between;
     width: 70px;
     height: 34px;
-    background: #f0f0f0;
+    background: #eee;
     border-radius: 34px;
     cursor: pointer;
     transition: background .4s;
@@ -55,11 +55,10 @@
     width: 20px;
     height: 20px;
     color: #000; /* czarny w trybie jasnym */
-	color: var(--global-palette2);
 }
 
 .ts-toggle:checked + .ts-label {
-    background: var(--global-palette2);
+    background: #000;
 }
 
 .ts-toggle:checked + .ts-label .ts-slider {
@@ -76,4 +75,5 @@
 
 .ts-toggle:checked + .ts-label .ts-icon svg {
     color: #fff; /* biały w trybie ciemnym – lepszy kontrast */
+
 }
