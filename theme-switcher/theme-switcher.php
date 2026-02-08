@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Theme Switcher
- * Description: Blok Gutenberg i shortcode do przełączania data-theme (bright/dark) na <body>. Stan zapisywany w ciasteczku (client-side).
+ * Description: Gutenberg block and shortcode for toggling the data-theme attribute (bright/dark) on <body>. State saved in a cookie (client-side).
  * Version: 1.1
  * Author: Grok
  */
@@ -61,4 +61,5 @@ add_action('init', 'ts_register_block_assets');
 function ts_enqueue_block_assets() {
     wp_enqueue_script('ts-block');
 }
+
 add_action('enqueue_block_editor_assets', 'ts_enqueue_block_assets');
